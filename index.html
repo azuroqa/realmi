@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>云墨 · 中文占位符</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0f0f1e;
+    --bg-soft: #1a1a2e;
+    --ink: #f5f1e8;
+    --ink-soft: #c9c3b5;
+    --accent: #e94560;
+    --gold: #d4a574;
+    --jade: #7fb069;
+  }
+
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* Декоративный фон */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(233, 69, 96, 0.15), transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(127, 176, 105, 0.12), transparent 45%),
+      radial-gradient(circle at 50% 50%, rgba(212, 165, 116, 0.08), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Навигация */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    background: rgba(15, 15, 30, 0.7);
+    border-bottom: 1px solid rgba(245, 241, 232, 0.08);
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover::after { width: 100%; }
+
+  /* Hero */
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    border: 1px solid rgba(212, 165, 116, 0.4);
+    border-radius: 999px;
+    color: var(--gold);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 0.05em;
+  }
+
+  .hero p {
+    max-width: 700px;
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    padding: 0.9rem 2.2rem;
+    border-radius: 999px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    font-weight: 500;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #c0392b);
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(233, 69, 96, 0.5);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid rgba(245, 241, 232, 0.2);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* Секции */
+  section {
+    padding: 6rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-tag {
+    color: var(--gold);
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    color: var(--ink-soft);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Карточки */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(212, 165, 116, 0.3);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(233, 69, 96, 0.2), rgba(212, 165, 116, 0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .card p {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  /* Двухколоночный блок */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .split-visual {
+    aspect-ratio: 1;
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(233, 69, 96, 0.3), transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(127, 176, 105, 0.3), transparent 50%),
+      linear-gradient(135deg, var(--bg-soft), #2a1a3e);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8rem;
+    color: rgba(212, 165, 116, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .split-visual::after {
+    content: "墨";
+    position: absolute;
+    font-size: 15rem;
+    opacity: 0.08;
+    font-weight: 900;
+  }
+
+  .split-text h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .split-text p {
+    color: var(--ink-soft);
+    margin-bottom: 1.2rem;
+  }
+
+  .feature-list {
+    list-style: none;
+    margin-top: 1.5rem;
+  }
+
+  .feature-list li {
+    padding: 0.6rem 0;
+    padding-left: 1.8rem;
+    position: relative;
+    color: var(--ink-soft);
+  }
+
+  .feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--jade);
+    font-weight: bold;
+  }
+
+  /* Статистика */
+  .stats {
+    background: linear-gradient(135deg, rgba(233, 69, 96, 0.08), rgba(127, 176, 105, 0.08));
+    border-radius: 24px;
+    padding: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* CTA */
+  .cta {
+    text-align: center;
+    padding: 6rem 2rem;
+  }
+
+  .cta-box {
+    background: linear-gradient(135deg, rgba(233, 69, 96, 0.15), rgba(212, 165, 116, 0.1));
+    border: 1px solid rgba(212, 165, 116, 0.2);
+    border-radius: 32px;
+    padding: 4rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    backdrop-filter: blur(20px);
+  }
+
+  .cta-box h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1rem;
+  }
+
+  .cta-box p {
+    color: var(--ink-soft);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Footer */
+  footer {
+    padding: 3rem 2rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer .logo {
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+
+  /* Адаптив */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .split { grid-template-columns: 1fr; gap: 2rem; }
+    section { padding: 4rem 1.5rem; }
+    .stats { padding: 2rem 1.5rem; }
+    .cta-box { padding: 2.5rem 1.5rem; }
+  }
+
+  /* Анимация появления */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero > * {
+    animation: fadeUp 0.8s ease-out backwards;
+  }
+  .hero > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero > *:nth-child(2) { animation-delay: 0.3s; }
+  .hero > *:nth-child(3) { animation-delay: 0.5s; }
+  .hero > *:nth-child(4) { animation-delay: 0.7s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">云墨 · YUNMO</div>
+  <ul class="nav-links">
+    <li><a href="#features">特色</a></li>
+    <li><a href="#about">关于</a></li>
+    <li><a href="#stats">数据</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-badge">天地玄黄 · 宇宙洪荒</span>
+  <h1>墨韵千秋<br>文以载道</h1>
+  <p>
+    日月盈昃，辰宿列张。寒来暑往，秋收冬藏。闰余成岁，律吕调阳。
+    云腾致雨，露结为霜。金生丽水，玉出昆冈。这是一段用于演示的中文占位文字。
+  </p>
+  <div class="hero-buttons">
+    <a href="#features" class="btn btn-primary">立即开始</a>
+    <a href="#about" class="btn btn-ghost">了解更多</a>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">核心特色</div>
+      <h2 class="section-title">剑锋所指，所向披靡</h2>
+      <p class="section-subtitle">
+        海阔凭鱼跃，天高任鸟飞。我们致力于为您提供最优质的体验，让每一次交互都成为一次难忘的旅程。
+      </p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🏔</div>
+        <h3>山高水长</h3>
+        <p>
+          剑外忽传收蓟北，初闻涕泪满衣裳。却看妻子愁何在，漫卷诗书喜欲狂。
+          白日放歌须纵酒，青春作伴好还乡。即从巴峡穿巫峡，便下襄阳向洛阳。
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🌊</div>
+        <h3>海纳百川</h3>
+        <p>
+          黄河之水天上来，奔流到海不复回。高堂明镜悲白发，朝如青丝暮成雪。
+          人生得意须尽欢，莫使金樽空对月。天生我材必有用，千金散尽还复来。
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🌸</div>
+        <h3>春风化雨</h3>
+        <p>
+          床前明月光，疑是地上霜。举头望明月，低头思故乡。
+          红豆生南国，春来发几枝。愿君多采撷，此物最相思。
+          这是一段示例文本，用于填充页面布局。
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎋</div>
+        <h3>竹影清风</h3>
+        <p>
+          独坐幽篁里，弹琴复长啸。深林人不知，明月来相照。
+          空山不见人，但闻人语响。返景入深林，复照青苔上。
+          占位文字，仅作展示之用。
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🌙</div>
+        <h3>月明星稀</h3>
+        <p>
+          明月几时有，把酒问青天。不知天上宫阙，今夕是何年。
+          我欲乘风归去，又恐琼楼玉宇，高处不胜寒。起舞弄清影，何似在人间。
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🏮</div>
+        <h3>灯火阑珊</h3>
+        <p>
+          东风夜放花千树，更吹落，星如雨。宝马雕车香满路。
+          凤箫声动，玉壶光转，一夜鱼龙舞。蛾儿雪柳黄金缕，笑语盈盈暗香去。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="split">
+      <div class="split-visual">書</div>
+      <div class="split-text">
+        <div class="section-tag">关于我们</div>
+        <h2>笔落惊风雨，诗成泣鬼神</h2>
+        <p>
+          千古兴亡多少事，悠悠。不尽长江滚滚流。年少万兜鍪，坐断东南战未休。
+          天下英雄谁敌手，曹刘。生子当如孙仲谋。
+        </p>
+        <p>
+          大江东去，浪淘尽，千古风流人物。故垒西边，人道是，三国周郎赤壁。
+          乱石穿空，惊涛拍岸，卷起千堆雪。江山如画，一时多少豪杰。
+        </p>
+        <ul class="feature-list">
+          <li>落霞与孤鹜齐飞，秋水共长天一色</li>
+          <li>会当凌绝顶，一览众山小</li>
+          <li>长风破浪会有时，直挂云帆济沧海</li>
+          <li>不畏浮云遮望眼，自缘身在最高层</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="container">
+    <div class="stats">
+      <div class="stats-grid">
+        <div>
+          <div class="stat-number">9999+</div>
+          <div class="stat-label">用户信赖</div>
+        </div>
+        <div>
+          <div class="stat-number">108</div>
+          <div class="stat-label">城市覆盖</div>
+        </div>
+        <div>
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">全天候服务</div>
+        </div>
+        <div>
+          <div class="stat-number">∞</div>
+          <div class="stat-label">无限可能</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="cta-box">
+    <h2>千里之行，始于足下</h2>
+    <p>
+      路漫漫其修远兮，吾将上下而求索。加入我们，一同书写属于未来的篇章。
+      莫愁前路无知己，天下谁人不识君。
+    </p>
+    <a href="#" class="btn btn-primary">立即加入</a>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">云墨 · YUNMO</div>
+  <p>
+    此页面为演示用途 · 所有文字均为中文占位符 ·  Lorem Ipsum 中文版<br>
+    天地玄黄 · 宇宙洪荒 · 日月盈昃 · 辰宿列张
+  </p>
+  <p style="margin-top: 1rem; opacity: 0.6;">© 2026 云墨工作室 · 版权所有</p>
+</footer>
+
+</body>
+</html>
